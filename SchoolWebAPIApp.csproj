@@ -11,11 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="SchoolBusinessLayer\SchoolBusinessLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\SchoolBusinessLayer\SchoolBusinessLayer.csproj" />
   </ItemGroup>
 
 </Project>

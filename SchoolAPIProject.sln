@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolWebAPIApp", "SchoolWebAPIApp.csproj", "{6AA3B4F2-D388-4DC0-AEC0-1DB776C77B4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolWebAPIApp", "SchoolWebAPIApp.csproj", "{6AA3B4F2-D388-4DC0-AEC0-1DB776C77B4E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolAPiDataAccessLayer", "..\SchoolAPiDataAccessLayer\SchoolAPiDataAccessLayer.csproj", "{59336307-3F73-409E-9952-6556F759C761}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolAPiDataAccessLayer", "..\SchoolAPiDataAccessLayer\SchoolAPiDataAccessLayer.csproj", "{6D8755C1-ABFA-41A2-80C2-90B5EF0252F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolBusinessLayer", "..\SchoolBusinessLayer\SchoolBusinessLayer.csproj", "{38E63A03-21E3-4DB7-B5BD-6F20D4A6F520}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SchoolBusinessLayer", "..\SchoolBusinessLayer\SchoolBusinessLayer.csproj", "{E9CF4619-D44E-40CF-82B1-88C6294A2709}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{6AA3B4F2-D388-4DC0-AEC0-1DB776C77B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6AA3B4F2-D388-4DC0-AEC0-1DB776C77B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6AA3B4F2-D388-4DC0-AEC0-1DB776C77B4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59336307-3F73-409E-9952-6556F759C761}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59336307-3F73-409E-9952-6556F759C761}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59336307-3F73-409E-9952-6556F759C761}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59336307-3F73-409E-9952-6556F759C761}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38E63A03-21E3-4DB7-B5BD-6F20D4A6F520}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38E63A03-21E3-4DB7-B5BD-6F20D4A6F520}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38E63A03-21E3-4DB7-B5BD-6F20D4A6F520}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38E63A03-21E3-4DB7-B5BD-6F20D4A6F520}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D8755C1-ABFA-41A2-80C2-90B5EF0252F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D8755C1-ABFA-41A2-80C2-90B5EF0252F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D8755C1-ABFA-41A2-80C2-90B5EF0252F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D8755C1-ABFA-41A2-80C2-90B5EF0252F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E9CF4619-D44E-40CF-82B1-88C6294A2709}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E9CF4619-D44E-40CF-82B1-88C6294A2709}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E9CF4619-D44E-40CF-82B1-88C6294A2709}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E9CF4619-D44E-40CF-82B1-88C6294A2709}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

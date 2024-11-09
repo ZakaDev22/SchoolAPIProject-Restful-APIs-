@@ -87,9 +87,10 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await person.SaveAsync())
             {
-                personDTO.PersonID = person.PersonID;
+                var newPerson = personDTO with { PersonID = person.PersonID };
 
-                return CreatedAtRoute("GetByID", new { Id = personDTO.PersonID }, personDTO);
+
+                return CreatedAtRoute("GetByID", new { Id = newPerson.PersonID }, newPerson);
             }
             else
             {
@@ -131,9 +132,9 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await person.SaveAsync())
             {
-                personDTO.PersonID = person.PersonID;
+                var newPerson = personDTO with { PersonID = person.PersonID };
 
-                return Ok($"Person With ID {personDTO.PersonID} Have Ben Updated successfully.");
+                return Ok($"Person With ID {newPerson.PersonID} Have Ben Updated successfully.");
             }
             else
             {

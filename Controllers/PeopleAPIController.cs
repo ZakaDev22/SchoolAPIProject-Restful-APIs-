@@ -90,7 +90,7 @@ namespace SchoolWebAPIApp.Controllers
                 var newPerson = personDTO with { PersonID = person.PersonID };
 
 
-                return CreatedAtRoute("GetByID", new { Id = newPerson.PersonID }, newPerson);
+                return CreatedAtRoute("GetByID", new { ID = newPerson.PersonID }, newPerson);
             }
             else
             {
@@ -166,6 +166,42 @@ namespace SchoolWebAPIApp.Controllers
             }
             else
                 return Ok($"Success, Person With ID {ID} Have Ben Deleted Successfully.");
+        }
+
+        [HttpGet("IsPersonExistsByID/{PersonID}", Name = "IsPersonExistsByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<bool>>> IsPersonExistsByIDAsync(int PersonID)
+        {
+            if (PersonID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            var IsExists = await clsPeople.IsExistsByIDAsync(PersonID);
+
+            if (!IsExists)
+                return NotFound($"No Student With ID {PersonID} Has Ben  Found!");
+
+
+            return Ok(IsExists);
+        }
+
+        [HttpGet("IsPersonExistsByName/{FirstName}/{LastName}", Name = "IsPersonExistsByName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<bool>>> IsPersonExistsByNameAsync(string FirstName, string LastName)
+        {
+            if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName))
+                return BadRequest($"Invalid ID !");
+
+            var IsExists = await clsPeople.IsExistsByNameAsync(FirstName, LastName);
+
+            if (!IsExists)
+                return NotFound($"No Student With Name {FirstName} {LastName} Has Ben  Found!");
+
+
+            return Ok(IsExists);
         }
     }
 }

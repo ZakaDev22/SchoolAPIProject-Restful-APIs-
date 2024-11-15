@@ -99,5 +99,71 @@ namespace SchoolWebAPIApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [HttpPost("AddNewStudent", Name = "AddNewStudent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<studentDTO>> AddNewStudentAsync(studentDTO sDTO)
+        {
+            if (sDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (sDTO.PersonID <= 0 || sDTO.StudentGradeID < 0 || sDTO.SchoolID <= 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var student = new clsStudents(sDTO, clsStudents.enMode.AddNew);
+
+            if (await student.SaveAsync())
+            {
+                return CreatedAtRoute("GetByIDAsync", new { Id = student.StudentID }, student.sDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Person Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateStudent/{ID}", Name = "UpdateStudent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<studentDTO>> UpdateStudentAsync(int ID, studentDTO sDTO)
+        {
+            if (sDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (ID <= 0 || sDTO.PersonID <= 0 || sDTO.StudentGradeID < 0 || sDTO.SchoolID <= 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var student = await clsStudents.GetByIDAsync(ID);
+
+            if (student == null)
+                return NotFound($"No Student With {ID} Have Ben Found");
+
+            student.PersonID = sDTO.PersonID;
+            student.StudentGradeID = sDTO.StudentGradeID;
+            student.SchoolID = sDTO.SchoolID;
+            student.IsActive = sDTO.IsActive;
+
+            if (await student.SaveAsync())
+            {
+                return Ok($"Success, Student With ID {student.StudentID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Student Was Not Save." });
+            }
+
+        }
     }
 }

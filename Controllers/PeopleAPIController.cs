@@ -132,9 +132,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await person.SaveAsync())
             {
-                var newPerson = personDTO with { PersonID = person.PersonID };
-
-                return Ok($"Person With ID {newPerson.PersonID} Have Ben Updated successfully.");
+                return Ok($"Person With ID {person.PersonID} Have Ben Updated successfully.");
             }
             else
             {

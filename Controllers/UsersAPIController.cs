@@ -129,7 +129,7 @@ namespace SchoolWebAPIApp.Controllers
 
         }
 
-        [HttpPut("UpdateUser", Name = "UpdateUser")]
+        [HttpPut("UpdateUser/{ID}", Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

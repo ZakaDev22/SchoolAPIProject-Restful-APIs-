@@ -110,7 +110,8 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("user DTO Is Null!");
             }
 
-            if (userDTO.PersonID <= 0 || userDTO.Permissions < 0 || userDTO.AddedByUserID <= 0 || string.IsNullOrEmpty(userDTO.Password))
+            if (string.IsNullOrEmpty(userDTO.UserName) || userDTO.PersonID <= 0 || userDTO.Permissions < 0
+                                                       || userDTO.AddedByUserID <= 0 || string.IsNullOrEmpty(userDTO.Password))
             {
                 return BadRequest(" Some User DTO Properties Are Empty!");
             }
@@ -120,6 +121,46 @@ namespace SchoolWebAPIApp.Controllers
             if (await user.SaveAsync())
             {
                 return CreatedAtRoute("GetByID", new { Id = user.userID }, user.UserDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Person Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateUser", Name = "UpdateUser")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<FullUserDTO>> UpdateUser(int ID, FullUserDTO userDTO)
+        {
+            if (userDTO == null || ID <= 0)
+            {
+                return BadRequest("Invalid ID Or user DTO Is Null!");
+            }
+
+            if (userDTO.PersonID <= 0 || userDTO.Permissions < 0 || string.IsNullOrEmpty(userDTO.Password) || string.IsNullOrEmpty(userDTO.UserName))
+            {
+                return BadRequest(" Some User DTO Properties Are Empty!");
+            }
+
+            clsUsers user = await clsUsers.GetUserByIdAsync(ID);
+
+            if (user is null)
+            {
+                return NotFound($"No User With ID {ID} Have Ben Found!");
+            }
+
+            user.personID = userDTO.PersonID;
+            user.permissions = userDTO.Permissions;
+            user.passwordHash = userDTO.Password;
+            user.userName = userDTO.UserName;
+
+            if (await user.SaveAsync())
+            {
+                return Ok($"User With ID {ID} has Ben Ben Updated Successfully.");
             }
             else
             {

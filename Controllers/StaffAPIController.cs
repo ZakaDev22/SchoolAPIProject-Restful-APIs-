@@ -69,13 +69,13 @@ namespace SchoolWebAPIApp.Controllers
             var IsExists = await clsStaff.IsExistsByPersonIDAsync(PersonID);
 
             if (!IsExists)
-                return NotFound($"No Staff With ID {PersonID} Has Ben  Found!");
+                return NotFound($"No Staff With Person ID {PersonID} Has Ben  Found!");
 
 
             return Ok(IsExists);
         }
 
-        [HttpDelete("DeleteStaffByID/{ID}", Name = "DeleteStaffByID")]
+        [HttpDelete("DeleteStaffByID/{StaffID}", Name = "DeleteStaffByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

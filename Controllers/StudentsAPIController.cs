@@ -22,7 +22,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(students);
         }
 
-        [HttpGet("GetByIDAsync/{ID}", Name = "GetByIDAsync")]
+        [HttpGet("GetStudentByID/{ID}", Name = "GetStudentByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -119,7 +119,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await student.SaveAsync())
             {
-                return CreatedAtRoute("GetByIDAsync", new { Id = student.StudentID }, student.sDTO);
+                return CreatedAtRoute("GetStudentByID", new { ID = student.StudentID }, student.sDTO);
             }
             else
             {

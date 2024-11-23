@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SchoolAPiDataAccessLayer;
 using SchoolBusinessLayer;
 
@@ -16,7 +17,7 @@ namespace SchoolWebAPIApp.Controllers
         {
             var users = await clsUsers.GetAllUsersAsync();
 
-            if (users == null)
+            if (users.IsNullOrEmpty())
                 return NotFound("There Is No Data!");
 
             return Ok(users);

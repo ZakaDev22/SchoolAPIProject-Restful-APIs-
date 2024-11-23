@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SchoolAPiDataAccessLayer;
 using SchoolBusinessLayer;
 
@@ -16,7 +17,7 @@ namespace SchoolWebAPIApp.Controllers
         {
             var students = await clsStudents.GetAllAsync();
 
-            if (students == null)
+            if (students.IsNullOrEmpty())
                 return NotFound("There Is No Data!");
 
             return Ok(students);

@@ -55,5 +55,26 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(true);
         }
+
+        [HttpDelete("DeleteAttendanceByID/{ID}", Name = "DeleteAttendanceByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeleteAttendanceByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+
+            if (!await clsAttendance.IsExistsAsync(ID))
+                return NotFound($"No Attendance With ID {ID} Has Ben  Found!");
+
+
+            if (await clsAttendance.DeleteAsync(ID))
+                return Ok($"Success, Attendance With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }

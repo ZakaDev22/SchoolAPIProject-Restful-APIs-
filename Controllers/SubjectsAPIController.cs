@@ -67,13 +67,11 @@ namespace SchoolWebAPIApp.Controllers
             if (ID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsSubjects.IsExistsAsync(ID);
-
-            if (!IsExists)
+            if (!await clsSubjects.IsExistsAsync(ID))
                 return NotFound($"No subject With ID {ID} Has Ben  Found!");
 
 
-            return Ok(IsExists);
+            return Ok(true);
         }
 
         [HttpDelete("DeleteSubjectByID/{ID}", Name = "DeleteSubjectByID")]
@@ -102,7 +100,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<staffDTO>> AddNewSubjectAsync(subjectDTO sDTO)
+        public async Task<ActionResult<subjectDTO>> AddNewSubjectAsync(subjectDTO sDTO)
         {
             if (sDTO == null)
             {
@@ -132,7 +130,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<staffDTO>> UpdateSubjectAsync(int ID, subjectDTO sDTO)
+        public async Task<ActionResult<subjectDTO>> UpdateSubjectAsync(int ID, subjectDTO sDTO)
         {
             if (sDTO == null)
             {

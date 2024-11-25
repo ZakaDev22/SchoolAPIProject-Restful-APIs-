@@ -177,13 +177,11 @@ namespace SchoolWebAPIApp.Controllers
             if (PersonID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsPeople.IsExistsByIDAsync(PersonID);
-
-            if (!IsExists)
+            if (!await clsPeople.IsExistsByIDAsync(PersonID))
                 return NotFound($"No Student With ID {PersonID} Has Ben  Found!");
 
 
-            return Ok(IsExists);
+            return Ok(true);
         }
 
         [HttpGet("IsPersonExistsByName/{FirstName}/{LastName}", Name = "IsPersonExistsByName")]

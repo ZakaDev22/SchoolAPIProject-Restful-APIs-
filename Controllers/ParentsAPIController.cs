@@ -12,7 +12,7 @@ namespace SchoolWebAPIApp.Controllers
         [HttpGet("GetAllParents", Name = "GetAllParents")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<staffDTO>>> GetAllParents()
+        public async Task<ActionResult<IEnumerable<parentDTO>>> GetAllParents()
         {
             var parents = await clsParents.GetAllAsync();
 
@@ -26,7 +26,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<studentDTO>>> GetByIDAsync(int ID)
+        public async Task<ActionResult<IEnumerable<parentDTO>>> GetByIDAsync(int ID)
         {
             if (ID <= 0)
                 return BadRequest($"Invalid ID !");
@@ -49,13 +49,11 @@ namespace SchoolWebAPIApp.Controllers
             if (ParentID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsParents.IsExistsAsync(ParentID);
-
-            if (!IsExists)
+            if (!await clsParents.IsExistsAsync(ParentID))
                 return NotFound($"No Parent With ID {ParentID} Has Ben  Found!");
 
 
-            return Ok(IsExists);
+            return Ok(true);
         }
 
 
@@ -68,13 +66,12 @@ namespace SchoolWebAPIApp.Controllers
             if (PersonID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsParents.IsExistsByPersonIDAsync(PersonID);
 
-            if (!IsExists)
+            if (!await clsParents.IsExistsByPersonIDAsync(PersonID))
                 return NotFound($"No Parent With Person ID {PersonID} Has Ben  Found!");
 
 
-            return Ok(IsExists);
+            return Ok(true);
         }
 
         [HttpDelete("DeleteParentByID/{ParentID}", Name = "DeleteParentByID")]
@@ -133,7 +130,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<staffDTO>> UpdateParentAsync(int ID, parentDTO pDTO)
+        public async Task<ActionResult<parentDTO>> UpdateParentAsync(int ID, parentDTO pDTO)
         {
             if (pDTO == null)
             {

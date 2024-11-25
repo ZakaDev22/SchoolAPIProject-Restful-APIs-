@@ -45,7 +45,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<FullUserDTO>>> FindStudentByPersonIDAsync(int PersonID)
+        public async Task<ActionResult<IEnumerable<studentDTO>>> FindStudentByPersonIDAsync(int PersonID)
         {
             if (PersonID <= 0)
                 return BadRequest($"Invalid ID !");
@@ -69,13 +69,11 @@ namespace SchoolWebAPIApp.Controllers
             if (StudentID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsStudents.IsExistsAsync(StudentID);
-
-            if (!IsExists)
+            if (!await clsStudents.IsExistsAsync(StudentID))
                 return NotFound($"No Student With ID {StudentID} Has Ben  Found!");
 
 
-            return Ok(IsExists);
+            return Ok(true);
         }
 
         [HttpDelete("DeleteStudentByID/{StudentID}", Name = "DeleteStudentByID")]

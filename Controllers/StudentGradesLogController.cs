@@ -50,13 +50,11 @@ namespace SchoolWebAPIApp.Controllers
             if (ID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsStudentGradesLog.IsExistsAsync(ID);
 
-            if (!IsExists)
+            if (!await clsStudentGradesLog.IsExistsAsync(ID))
                 return NotFound($"No Student Grade Log With ID {ID} Has Ben  Found!");
 
-
-            return Ok(IsExists);
+            return Ok(true);
         }
 
 
@@ -86,7 +84,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<staffDTO>> AddNewStudentGradeLogAsync(sgLogDTO sDTO)
+        public async Task<ActionResult<sgLogDTO>> AddNewStudentGradeLogAsync(sgLogDTO sDTO)
         {
             if (sDTO == null)
             {
@@ -116,7 +114,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<staffDTO>> UpdateStudentGradeLogAsync(int ID, sgLogDTO sDTO)
+        public async Task<ActionResult<sgLogDTO>> UpdateStudentGradeLogAsync(int ID, sgLogDTO sDTO)
         {
             if (sDTO == null)
             {

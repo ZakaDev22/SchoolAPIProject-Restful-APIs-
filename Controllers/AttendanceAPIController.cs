@@ -76,5 +76,72 @@ namespace SchoolWebAPIApp.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpPost("AddNewAttendance", Name = "AddNewAttendance")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<attendanceDTO>> AddNewAttendanceAsync(attendanceDTO attendanceDTO)
+        {
+            if (attendanceDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (attendanceDTO.ClassID < 0 || attendanceDTO.ClassID <= 0)
+            {
+                return base.BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var attendance = new clsAttendance(attendanceDTO, clsAttendance.enMode.AddNew);
+
+            if (await attendance.SaveAsync())
+            {
+                return CreatedAtRoute("GetAttendanceByID", new { ID = attendance.AttendanceID }, attendance.attendanceDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Attendance Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateAttendance/{ID}", Name = "UpdateAttendance")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<attendanceDTO>> UpdateAttendanceAsync(int ID, attendanceDTO attendanceDTO)
+        {
+            if (attendanceDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (ID <= 0 || attendanceDTO.StudentID < 0 || attendanceDTO.ClassID <= 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var attendance = await clsAttendance.GetByIDAsync(ID);
+
+            if (attendance == null)
+                return NotFound($"No attendance With {ID} Have Ben Found");
+
+            //attendance.PersonID = attendanceDTO.PersonID;
+            attendance.StudentID = attendanceDTO.StudentID;
+            attendance.ClassID = attendanceDTO.ClassID;
+            attendance.Status = attendanceDTO.Status;
+
+            if (await attendance.SaveAsync())
+            {
+                return Ok($"Success, Attendance With ID {attendance.AttendanceID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Staff Was Not Save." });
+            }
+
+        }
     }
 }

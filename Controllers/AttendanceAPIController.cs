@@ -139,7 +139,7 @@ namespace SchoolWebAPIApp.Controllers
             }
             else
             {
-                return StatusCode(500, new { Message = "Error, Staff Was Not Save." });
+                return StatusCode(500, new { Message = "Error, Attendance Was Not Save." });
             }
 
         }

@@ -55,5 +55,96 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(true);
         }
+
+        [HttpDelete("DeleteClassByID/{ID}", Name = "DeleteClassByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeleteClassByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+
+            if (!await clsClasses.IsExistsAsync(ID))
+                return NotFound($"No CLass With ID {ID} Has Ben  Found!");
+
+
+            if (await clsAttendance.DeleteAsync(ID))
+                return Ok($"Success, Class With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        [HttpPost("AddNewCLasse", Name = "AddNewCLasse")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<classDTO>> AddNewCLasseAsync(classDTO classDTO)
+        {
+            if (classDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (classDTO.ClassID < 0 || classDTO.SchoolID <= 0 || classDTO.Capacity <= 0 ||
+                   string.IsNullOrEmpty(classDTO.ClassName) || string.IsNullOrEmpty(classDTO.ClassCode))
+            {
+                return base.BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var @class = new clsClasses(classDTO, clsClasses.enMode.AddNew);
+
+            if (await @class.SaveAsync())
+            {
+                return CreatedAtRoute("GetAttendanceByID", new { ID = @class.ClassID }, @class.classDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Attendance Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateCLass/{ID}", Name = "UpdateCLass")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<classDTO>> UpdateAttendanceAsync(int ID, classDTO @class)
+        {
+            if (@class == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+
+            if (@class.ClassID < 0 || @class.SchoolID <= 0 || @class.Capacity <= 0 ||
+                   string.IsNullOrEmpty(@class.ClassName) || string.IsNullOrEmpty(@class.ClassCode))
+            {
+                return base.BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var Class = await clsClasses.GetByIDAsync(ID);
+
+            if (Class == null)
+                return NotFound($"No class With {ID} Have Ben Found");
+
+            Class.ClassName = @class.ClassName;
+            Class.ClassCode = @class.ClassCode;
+            Class.SchoolID = @class.SchoolID;
+            Class.Capacity = @class.Capacity;
+
+            if (await Class.SaveAsync())
+            {
+                return Ok($"Success, Class With ID {Class.ClassID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Class Was Not Save." });
+            }
+
+        }
     }
 }

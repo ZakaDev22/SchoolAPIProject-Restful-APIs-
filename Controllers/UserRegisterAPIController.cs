@@ -116,7 +116,7 @@ namespace SchoolWebAPIApp.Controllers
             // if We Need To Update Register We Only Need To Call The Save Method After We Found The Record We Need 
             // Because After We Found The Record The Mode Was Set To Update Mode
             // And At The End We Only Need To Send The Record ID To The Update Method 
-            // The Stored Procedure Will take care of Updating The Logout Field To The Time The Current User Is Logout
+            // The Stored Procedure Will take care of Updating The Logout Field To The Time The Current User Is Logout 
             if (await register.SaveAsync())
             {
                 return Ok($"Success, Register With ID {register.RegisterID} Has Ben Updated Successfully.");

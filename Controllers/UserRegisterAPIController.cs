@@ -37,7 +37,7 @@ namespace SchoolWebAPIApp.Controllers
             var register = await clsUserRegister.GetByIDAsync(ID);
 
             if (register == null)
-                return NotFound($"No Subject With ID {ID} Is Not Found!");
+                return NotFound($"No Register With ID {ID} Is Not Found!");
 
 
             return Ok(register.RegisterDTO);

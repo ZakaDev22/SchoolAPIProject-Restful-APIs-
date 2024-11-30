@@ -82,14 +82,12 @@ namespace SchoolWebAPIApp.Controllers
             if (StaffID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsStaff.IsExistsAsync(StaffID);
-
-            if (!IsExists)
-                return NotFound($"No Student With ID {StaffID} Has Ben  Found!");
+            if (!await clsStaff.IsExistsAsync(StaffID))
+                return NotFound($"No Staff With ID {StaffID} Has Ben  Found!");
 
 
             if (await clsStaff.DeleteAsync(StaffID))
-                return Ok($"Success, Student With ID {StaffID} Has Ben Deleted.");
+                return Ok($"Success, Staff With ID {StaffID} Has Ben Deleted.");
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
@@ -144,7 +142,7 @@ namespace SchoolWebAPIApp.Controllers
 
             var staff = await clsStaff.GetByIDAsync(ID);
 
-            if (staff == null)
+            if (staff is null)
                 return NotFound($"No staff With {ID} Have Ben Found");
 
             staff.PersonID = sDTO.PersonID;
@@ -155,7 +153,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await staff.SaveAsync())
             {
-                return Ok($"Success, Student With ID {staff.StaffID} Has Ben Updated Successfully.");
+                return Ok($"Success, Staff With ID {staff.StaffID} Has Ben Updated Successfully.");
             }
             else
             {

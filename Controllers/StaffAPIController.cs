@@ -12,7 +12,7 @@ namespace SchoolWebAPIApp.Controllers
         [HttpGet("GetAllStaff", Name = "GetAllStaff")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<staffDTO>>> GetAllStaff()
+        public async Task<ActionResult<IEnumerable<staffDTO>>> GetAllStaffAsync()
         {
             var staffs = await clsStaff.GetAllAsync();
 

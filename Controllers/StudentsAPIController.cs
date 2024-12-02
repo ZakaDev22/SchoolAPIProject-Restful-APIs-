@@ -120,7 +120,7 @@ namespace SchoolWebAPIApp.Controllers
             }
             else
             {
-                return StatusCode(500, new { Message = "Error, Person Was Not Save." });
+                return StatusCode(500, new { Message = "Error, Student Was Not Save." });
             }
 
         }

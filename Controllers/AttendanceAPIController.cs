@@ -97,7 +97,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await attendance.SaveAsync())
             {
-                return CreatedAtRoute("GetAttendanceByID", new { ID = attendance.AttendanceID }, attendance.attendanceDTO);
+                return CreatedAtRoute("GetAttendanceByID", new { ID = attendance.ID }, attendance.attendanceDTO);
             }
             else
             {
@@ -128,14 +128,14 @@ namespace SchoolWebAPIApp.Controllers
             if (attendance == null)
                 return NotFound($"No attendance With {ID} Have Ben Found");
 
-            //attendance.PersonID = attendanceDTO.PersonID;
+            //attendance.ID = attendanceDTO.ID;
             attendance.StudentID = attendanceDTO.StudentID;
             attendance.ClassID = attendanceDTO.ClassID;
             attendance.Status = attendanceDTO.Status;
 
             if (await attendance.SaveAsync())
             {
-                return Ok($"Success, Attendance With ID {attendance.AttendanceID} Has Ben Updated Successfully.");
+                return Ok($"Success, Attendance With ID {attendance.ID} Has Ben Updated Successfully.");
             }
             else
             {

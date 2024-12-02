@@ -40,7 +40,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(Parent.parentDTO);
         }
 
-        [HttpGet("IsParentExistsByID/{ParentID}", Name = "IsParentExistsByID")]
+        [HttpGet("IsParentExistsByID/{ID}", Name = "IsParentExistsByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -57,7 +57,7 @@ namespace SchoolWebAPIApp.Controllers
         }
 
 
-        [HttpGet("IsParentExistsByPersonID/{PersonID}", Name = "IsParentExistsByPersonID")]
+        [HttpGet("IsParentExistsByPersonID/{ID}", Name = "IsParentExistsByPersonID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -74,7 +74,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(true);
         }
 
-        [HttpDelete("DeleteParentByID/{ParentID}", Name = "DeleteParentByID")]
+        [HttpDelete("DeleteParentByID/{ID}", Name = "DeleteParentByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -116,7 +116,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await parent.SaveAsync())
             {
-                return CreatedAtRoute("GetParentByID", new { ID = parent.ParentID }, parent.parentDTO);
+                return CreatedAtRoute("GetParentByID", new { ID = parent.ID }, parent.parentDTO);
             }
             else
             {
@@ -137,7 +137,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            // Her I Remove pDTO.PersonID From The Validation Because I dont Want The User To Change Persons ID Once They Are Created
+            // Her I Remove pDTO.ID From The Validation Because I dont Want The User To Change Persons ID Once They Are Created
             if (ID <= 0 || pDTO.RelationshipTypeID < 0 || pDTO.StudentID <= 0)
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
@@ -148,13 +148,13 @@ namespace SchoolWebAPIApp.Controllers
             if (parent == null)
                 return NotFound($"No Parent With {ID} Have Ben Found");
 
-            //parent.PersonID = pDTO.PersonID;
+            //parent.ID = pDTO.ID;
             parent.RelationshipID = pDTO.RelationshipTypeID;
             parent.StudentID = pDTO.StudentID;
 
             if (await parent.SaveAsync())
             {
-                return Ok($"Success, Student With ID {parent.ParentID} Has Ben Updated Successfully.");
+                return Ok($"Success, Student With ID {parent.ID} Has Ben Updated Successfully.");
             }
             else
             {

@@ -88,8 +88,8 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            if (classDTO.ClassID < 0 || classDTO.SchoolID <= 0 || classDTO.Capacity <= 0 ||
-                   string.IsNullOrEmpty(classDTO.ClassName) || string.IsNullOrEmpty(classDTO.ClassCode))
+            if (classDTO.ID < 0 || classDTO.SchoolID <= 0 || classDTO.Capacity <= 0 ||
+                   string.IsNullOrEmpty(classDTO.Name) || string.IsNullOrEmpty(classDTO.Code))
             {
                 return base.BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -98,7 +98,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await @class.SaveAsync())
             {
-                return CreatedAtRoute("GetAttendanceByID", new { ID = @class.ClassID }, @class.classDTO);
+                return CreatedAtRoute("GetAttendanceByID", new { ID = @class.ID }, @class.classDTO);
             }
             else
             {
@@ -120,8 +120,8 @@ namespace SchoolWebAPIApp.Controllers
             }
 
 
-            if (@class.ClassID < 0 || @class.SchoolID <= 0 || @class.Capacity <= 0 ||
-                   string.IsNullOrEmpty(@class.ClassName) || string.IsNullOrEmpty(@class.ClassCode))
+            if (@class.ID < 0 || @class.SchoolID <= 0 || @class.Capacity <= 0 ||
+                   string.IsNullOrEmpty(@class.Name) || string.IsNullOrEmpty(@class.Code))
             {
                 return base.BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -131,14 +131,14 @@ namespace SchoolWebAPIApp.Controllers
             if (Class == null)
                 return NotFound($"No class With {ID} Have Ben Found");
 
-            Class.ClassName = @class.ClassName;
-            Class.ClassCode = @class.ClassCode;
+            Class.Name = @class.Name;
+            Class.Code = @class.Code;
             Class.SchoolID = @class.SchoolID;
             Class.Capacity = @class.Capacity;
 
             if (await Class.SaveAsync())
             {
-                return Ok($"Success, Class With ID {Class.ClassID} Has Ben Updated Successfully.");
+                return Ok($"Success, Class With ID {Class.ID} Has Ben Updated Successfully.");
             }
             else
             {

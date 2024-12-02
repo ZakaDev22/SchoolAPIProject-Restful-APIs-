@@ -121,7 +121,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await user.SaveAsync())
             {
-                return CreatedAtRoute("GetUserByID", new { UserID = user.userID }, user.UserDTO);
+                return CreatedAtRoute("GetUserByID", new { UserID = user.ID }, user.UserDTO);
             }
             else
             {

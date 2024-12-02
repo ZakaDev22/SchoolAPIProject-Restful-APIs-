@@ -86,7 +86,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await register.SaveAsync())
             {
-                return CreatedAtRoute("GetRegisterByID", new { ID = register.RegisterID }, register.RegisterDTO);
+                return CreatedAtRoute("GetRegisterByID", new { ID = register.ID }, register.RegisterDTO);
             }
             else
             {
@@ -119,7 +119,7 @@ namespace SchoolWebAPIApp.Controllers
             // The Stored Procedure Will take care of Updating The Logout Field To The Time The Current User Is Logout 
             if (await register.SaveAsync())
             {
-                return Ok($"Success, Register With ID {register.RegisterID} Has Ben Updated Successfully.");
+                return Ok($"Success, Register With ID {register.ID} Has Ben Updated Successfully.");
             }
 
             else

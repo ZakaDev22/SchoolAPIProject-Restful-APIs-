@@ -87,10 +87,10 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await person.SaveAsync())
             {
-                var newPerson = personDTO with { PersonID = person.PersonID };
+                var newPerson = personDTO with { ID = person.ID };
 
 
-                return CreatedAtRoute("GetByID", new { ID = newPerson.PersonID }, newPerson);
+                return CreatedAtRoute("GetByID", new { ID = newPerson.ID }, newPerson);
             }
             else
             {
@@ -132,7 +132,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await person.SaveAsync())
             {
-                return Ok($"Person With ID {person.PersonID} Have Ben Updated successfully.");
+                return Ok($"Person With ID {person.ID} Have Ben Updated successfully.");
             }
             else
             {
@@ -160,7 +160,7 @@ namespace SchoolWebAPIApp.Controllers
                 return NotFound($"Not Person Have Ben Found With ID {ID}");
             }
 
-            if (!await clsPeople.DeleteAsync(person.PersonID))
+            if (!await clsPeople.DeleteAsync(person.ID))
             {
                 return StatusCode(500, new { Messgae = "Error, Person Was Not Deleted" });
             }
@@ -168,7 +168,7 @@ namespace SchoolWebAPIApp.Controllers
                 return Ok($"Success, Person With ID {ID} Have Ben Deleted Successfully.");
         }
 
-        [HttpGet("IsPersonExistsByID/{PersonID}", Name = "IsPersonExistsByID")]
+        [HttpGet("IsPersonExistsByID/{ID}", Name = "IsPersonExistsByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

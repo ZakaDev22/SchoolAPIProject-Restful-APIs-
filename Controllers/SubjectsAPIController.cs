@@ -107,7 +107,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            if (sDTO.SchoolID <= 0 || string.IsNullOrEmpty(sDTO.SubjectName) || string.IsNullOrEmpty(sDTO.SubjectCode))
+            if (sDTO.SchoolID <= 0 || string.IsNullOrEmpty(sDTO.Name) || string.IsNullOrEmpty(sDTO.Code))
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -116,7 +116,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await subject.SaveAsync())
             {
-                return CreatedAtRoute("GetSubjectByID", new { ID = subject.SubjectID }, subject.sbjDTO);
+                return CreatedAtRoute("GetSubjectByID", new { ID = subject.ID }, subject.sbjDTO);
             }
             else
             {
@@ -137,7 +137,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            if (sDTO.SchoolID <= 0 || string.IsNullOrEmpty(sDTO.SubjectName) || string.IsNullOrEmpty(sDTO.SubjectCode))
+            if (sDTO.SchoolID <= 0 || string.IsNullOrEmpty(sDTO.Name) || string.IsNullOrEmpty(sDTO.Code))
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -147,14 +147,14 @@ namespace SchoolWebAPIApp.Controllers
             if (subject == null)
                 return NotFound($"No subject With {ID} Have Ben Found");
 
-            subject.SubjectName = sDTO.SubjectName;
-            subject.SubjectCode = sDTO.SubjectCode;
+            subject.Name = sDTO.Name;
+            subject.Code = sDTO.Code;
             subject.SchoolID = sDTO.SchoolID;
 
 
             if (await subject.SaveAsync())
             {
-                return Ok($"Success, Subject With ID {subject.SubjectID} Has Ben Updated Successfully.");
+                return Ok($"Success, Subject With ID {subject.ID} Has Ben Updated Successfully.");
             }
 
             else

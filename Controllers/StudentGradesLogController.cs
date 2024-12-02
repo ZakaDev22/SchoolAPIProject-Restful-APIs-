@@ -100,7 +100,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await sgLog.SaveAsync())
             {
-                return CreatedAtRoute("GetStudentGradeLogByID", new { ID = sgLog.LogID }, sgLog.sgLogDTO);
+                return CreatedAtRoute("GetStudentGradeLogByID", new { ID = sgLog.ID }, sgLog.sgLogDTO);
             }
             else
             {
@@ -139,7 +139,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await sgLog.SaveAsync())
             {
-                return Ok($"Success,  Grade Log With ID {sgLog.LogID} Has Ben Updated Successfully.");
+                return Ok($"Success,  Grade Log With ID {sgLog.ID} Has Ben Updated Successfully.");
             }
 
             else

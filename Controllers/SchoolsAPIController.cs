@@ -40,7 +40,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(school.schoolDTO);
         }
 
-        [HttpGet("GetSchoolNameID/{SchoolName}", Name = "GetSchoolNameID")]
+        [HttpGet("GetSchoolNameID/{Name}", Name = "GetSchoolNameID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -91,7 +91,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            if (sDTO.AddressID <= 0 || string.IsNullOrEmpty(sDTO.SchoolName))
+            if (sDTO.AddressID <= 0 || string.IsNullOrEmpty(sDTO.Name))
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -100,7 +100,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await school.SaveAsync())
             {
-                return CreatedAtRoute("GetSchoolByID", new { ID = school.SchoolID }, school.schoolDTO);
+                return CreatedAtRoute("GetSchoolByID", new { ID = school.ID }, school.schoolDTO);
             }
             else
             {
@@ -121,7 +121,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            if (ID <= 0 || sDTO.AddressID <= 0 || string.IsNullOrEmpty(sDTO.SchoolName))
+            if (ID <= 0 || sDTO.AddressID <= 0 || string.IsNullOrEmpty(sDTO.Name))
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
             }
@@ -131,13 +131,13 @@ namespace SchoolWebAPIApp.Controllers
             if (school == null)
                 return NotFound($"No school With {ID} Have Ben Found");
 
-            school.SchoolName = sDTO.SchoolName;
+            school.Name = sDTO.Name;
             school.AddressID = sDTO.AddressID;
 
 
             if (await school.SaveAsync())
             {
-                return Ok($"Success, School With ID {school.SchoolID} Has Ben Updated Successfully.");
+                return Ok($"Success, School With ID {school.ID} Has Ben Updated Successfully.");
             }
             else
             {

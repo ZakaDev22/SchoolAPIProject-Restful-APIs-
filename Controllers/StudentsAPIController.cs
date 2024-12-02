@@ -13,7 +13,7 @@ namespace SchoolWebAPIApp.Controllers
         [HttpGet("GetAllStudents", Name = "GetAllStudents")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<studentDTO>>> GetAllStudents()
+        public async Task<ActionResult<IEnumerable<studentDTO>>> GetAllStudentsAsync()
         {
             var students = await clsStudents.GetAllAsync();
 
@@ -35,7 +35,7 @@ namespace SchoolWebAPIApp.Controllers
             var student = await clsStudents.GetByIDAsync(ID);
 
             if (student == null)
-                return NotFound($"No User With ID {ID} Is Not Found!");
+                return NotFound($"No Student With ID {ID} Is Not Found!");
 
 
             return Ok(student.sDTO);

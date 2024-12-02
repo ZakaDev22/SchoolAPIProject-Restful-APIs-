@@ -39,5 +39,41 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(studentClass.sClassDTO);
         }
+
+        [HttpGet("IsStudentClassExistsByID/{ID}", Name = "IsStudentClassExistsByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<bool>>> IsStudentClassExistsByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            if (!await clsStudentsClasses.IsExistsAsync(ID))
+                return NotFound($"No Student Class With ID {ID} Has Ben  Found!");
+
+
+            return Ok(true);
+        }
+
+        [HttpDelete("DeleteStudentClassByID/{ID}", Name = "DeleteStudentClassByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeleteStudentClassByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            if (!await clsStudentsClasses.IsExistsAsync(ID))
+                return NotFound($"No Student Class With ID {ID} Has Ben  Found!");
+
+
+            if (await clsStudentsClasses.DeleteAsync(ID))
+                return Ok($"Success, Student Class With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }

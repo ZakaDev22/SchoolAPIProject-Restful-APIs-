@@ -86,9 +86,7 @@ namespace SchoolWebAPIApp.Controllers
             if (StudentID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsStudents.IsExistsAsync(StudentID);
-
-            if (!IsExists)
+            if (!await clsStudents.IsExistsAsync(StudentID))
                 return NotFound($"No Student With ID {StudentID} Has Ben  Found!");
 
 

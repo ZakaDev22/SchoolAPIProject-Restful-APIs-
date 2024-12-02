@@ -41,7 +41,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(student.sDTO);
         }
 
-        [HttpGet("FindStudentByPersonID/{PersonID}", Name = "FindStudentByPersonID")]
+        [HttpGet("FindStudentByPersonID/{ID}", Name = "FindStudentByPersonID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -60,7 +60,7 @@ namespace SchoolWebAPIApp.Controllers
         }
 
 
-        [HttpGet("IsStudentExistsByID/{StudentID}", Name = "IsStudentExistsByID")]
+        [HttpGet("IsStudentExistsByID/{ID}", Name = "IsStudentExistsByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -76,7 +76,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(true);
         }
 
-        [HttpDelete("DeleteStudentByID/{StudentID}", Name = "DeleteStudentByID")]
+        [HttpDelete("DeleteStudentByID/{ID}", Name = "DeleteStudentByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -118,7 +118,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await student.SaveAsync())
             {
-                return CreatedAtRoute("GetStudentByID", new { ID = student.StudentID }, student.sDTO);
+                return CreatedAtRoute("GetStudentByID", new { ID = student.ID }, student.sDTO);
             }
             else
             {
@@ -156,7 +156,7 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await student.SaveAsync())
             {
-                return Ok($"Success, Student With ID {student.StudentID} Has Ben Updated Successfully.");
+                return Ok($"Success, Student With ID {student.ID} Has Ben Updated Successfully.");
             }
             else
             {

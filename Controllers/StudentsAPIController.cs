@@ -13,7 +13,7 @@ namespace SchoolWebAPIApp.Controllers
         [HttpGet("GetAllStudents", Name = "GetAllStudents")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<studentDTO>>> GetAllStudents()
+        public async Task<ActionResult<IEnumerable<studentDTO>>> GetAllStudentsAsync()
         {
             var students = await clsStudents.GetAllAsync();
 
@@ -35,7 +35,7 @@ namespace SchoolWebAPIApp.Controllers
             var student = await clsStudents.GetByIDAsync(ID);
 
             if (student == null)
-                return NotFound($"No User With ID {ID} Is Not Found!");
+                return NotFound($"No Student With ID {ID} Is Not Found!");
 
 
             return Ok(student.sDTO);
@@ -86,9 +86,7 @@ namespace SchoolWebAPIApp.Controllers
             if (StudentID <= 0)
                 return BadRequest($"Invalid ID !");
 
-            var IsExists = await clsStudents.IsExistsAsync(StudentID);
-
-            if (!IsExists)
+            if (!await clsStudents.IsExistsAsync(StudentID))
                 return NotFound($"No Student With ID {StudentID} Has Ben  Found!");
 
 
@@ -122,7 +120,7 @@ namespace SchoolWebAPIApp.Controllers
             }
             else
             {
-                return StatusCode(500, new { Message = "Error, Person Was Not Save." });
+                return StatusCode(500, new { Message = "Error, Student Was Not Save." });
             }
 
         }

@@ -75,5 +75,70 @@ namespace SchoolWebAPIApp.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpPost("AddNewStudentParent", Name = "AddNewStudentParent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<studentClassDTO>> AddNewStudentParentAsync(studentParentDTO sDTO)
+        {
+            if (sDTO is null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (sDTO.StudentID <= 0 || sDTO.ParentID < 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var studentParent = new clsStudentParents(sDTO, clsStudentParents.enMode.AddNew);
+
+            if (await studentParent.SaveAsync())
+            {
+                return CreatedAtRoute("GetStudentParentByID", new { ID = studentParent.ID }, studentParent.sParentDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Student Parent Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateStudentParent/{ID}", Name = "UpdateStudentParent")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<studentParentDTO>> UpdateStudentParentAsync(int ID, studentParentDTO sDTO)
+        {
+            if (sDTO is null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (sDTO.StudentID <= 0 || sDTO.ParentID < 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var studentParent = await clsStudentParents.GetByIDAsync(ID);
+
+            if (studentParent is null)
+                return NotFound($"No Student Parent With {ID} Have Ben Found");
+
+            studentParent.StudentID = sDTO.StudentID;
+            studentParent.ParentID = sDTO.ParentID;
+
+            if (await studentParent.SaveAsync())
+            {
+                return Ok($"Success, Student Parent With ID {studentParent.ID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Student Parent Was Not Save." });
+            }
+
+        }
     }
 }

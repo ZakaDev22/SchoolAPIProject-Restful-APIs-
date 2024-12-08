@@ -71,7 +71,7 @@ namespace SchoolWebAPIApp.Controllers
                 return NotFound($"No CLass With ID {ID} Has Ben  Found!");
 
 
-            if (await clsAttendance.DeleteAsync(ID))
+            if (await clsClasses.DeleteAsync(ID))
                 return Ok($"Success, Class With ID {ID} Has Ben Deleted.");
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -98,11 +98,11 @@ namespace SchoolWebAPIApp.Controllers
 
             if (await @class.SaveAsync())
             {
-                return CreatedAtRoute("GetAttendanceByID", new { ID = @class.ID }, @class.classDTO);
+                return CreatedAtRoute("GetClassByID", new { ID = @class.ID }, @class.classDTO);
             }
             else
             {
-                return StatusCode(500, new { Message = "Error, Attendance Was Not Save." });
+                return StatusCode(500, new { Message = "Error, Class Was Not Save." });
             }
 
         }
@@ -112,7 +112,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<classDTO>> UpdateAttendanceAsync(int ID, classDTO @class)
+        public async Task<ActionResult<classDTO>> UpdateClassAsync(int ID, classDTO @class)
         {
             if (@class == null)
             {

@@ -71,7 +71,7 @@ namespace SchoolWebAPIApp.Controllers
                 return NotFound($"No CLass With ID {ID} Has Ben  Found!");
 
 
-            if (await clsAttendance.DeleteAsync(ID))
+            if (await clsClasses.DeleteAsync(ID))
                 return Ok($"Success, Class With ID {ID} Has Ben Deleted.");
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);

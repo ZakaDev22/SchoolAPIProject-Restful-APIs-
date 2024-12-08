@@ -39,5 +39,44 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(number.phoneNumberDTO);
         }
+
+        [HttpGet("IsPhoneNumberExistsByID/{ID}", Name = "IsPhoneNumberExistsByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IEnumerable<bool>>> IsPhoneNumberExistsByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            if (!await clsPhoneNumbers.IsExistsAsync(ID))
+                return NotFound($"No Phone Number With ID {ID} Has Ben  Found!");
+
+
+            return Ok(true);
+        }
+
+        [HttpDelete("DeletePhoneNumberByID/{ID}", Name = "DeletePhoneNumberByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeletePhoneNumberByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+
+            if (!await clsPhoneNumbers.IsExistsAsync(ID))
+                return NotFound($"No Phone Number With ID {ID} Has Ben  Found!");
+
+
+            if (await clsPhoneNumbers.DeleteAsync(ID))
+                return Ok($"Success, Phone Number With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
+
+
 }

@@ -40,7 +40,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(school.schoolDTO);
         }
 
-        [HttpGet("GetSchoolNameID/{Name}", Name = "GetSchoolNameID")]
+        [HttpGet("GetSchoolNameID/{SchoolName}", Name = "GetSchoolNameID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

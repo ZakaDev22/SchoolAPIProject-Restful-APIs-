@@ -81,7 +81,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<classDTO>> AddNewEMailAsync(EmailDTO emailDTO)
+        public async Task<ActionResult<EmailDTO>> AddNewEMailAsync(EmailDTO emailDTO)
         {
             if (emailDTO == null)
             {
@@ -111,7 +111,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<classDTO>> UpdateEMailAsync(int ID, EmailDTO emailDTO)
+        public async Task<ActionResult<EmailDTO>> UpdateEMailAsync(int ID, EmailDTO emailDTO)
         {
             if (emailDTO == null)
             {

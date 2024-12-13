@@ -26,7 +26,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<classDTO>>> GetEmailByIDAsync(int ID)
+        public async Task<ActionResult<IEnumerable<EmailDTO>>> GetEmailByIDAsync(int ID)
         {
             if (ID <= 0)
                 return BadRequest($"Invalid ID !");

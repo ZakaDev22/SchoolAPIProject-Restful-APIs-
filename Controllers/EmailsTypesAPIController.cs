@@ -39,5 +39,27 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(emailType.emailTypeDTO);
         }
+
+        [HttpDelete("DeleteEmailTypeByID/{ID}", Name = "DeleteEmailTypeByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeleteEmailTypeByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            var type = await clsEmailsTypes.GetByIDAsync(ID);
+
+            if (type is null)
+                return NotFound($"No Email Type With ID {ID} Has Ben  Found!");
+
+
+            if (await clsEmailsTypes.DeleteAsync(ID))
+                return Ok($"Success, EMail Type With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }

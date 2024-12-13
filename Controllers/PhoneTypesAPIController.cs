@@ -39,5 +39,27 @@ namespace SchoolWebAPIApp.Controllers
 
             return Ok(phoneType.phoneTypeDTO);
         }
+
+        [HttpDelete("DeletePhoneTypeByID/{ID}", Name = "DeletePhoneTypeByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeletePhoneTypeByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+            var type = await clsPhoneTypesData.GetByIdAsync(ID);
+
+            if (type is null)
+                return NotFound($"No phone Type With ID {ID} Has Ben  Found!");
+
+
+            if (await clsPhoneTypes.DeleteAsync(ID))
+                return Ok($"Success, Phone Type With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
     }
 }

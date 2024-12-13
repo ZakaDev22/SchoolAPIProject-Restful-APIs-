@@ -61,5 +61,71 @@ namespace SchoolWebAPIApp.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpPost("AddNewPhoneType", Name = "AddNewPhoneType")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<emailTypesDTO>> AddNewPhoneTypeAsync(phoneTypesDTO phonetypeDTO)
+        {
+            if (phonetypeDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (string.IsNullOrEmpty(phonetypeDTO.Name))
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var type = new clsPhoneTypes(phonetypeDTO, clsPhoneTypes.enMode.AddNew);
+
+            if (await type.SaveAsync())
+            {
+                return CreatedAtRoute("GetPhoneTypeByID", new { ID = type.ID }, type.phoneTypeDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Phone Type Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdatePhoneType/{ID}", Name = "UpdatePhoneType")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<EmailDTO>> UpdatePhoneTypeAsync(int ID, phoneTypesDTO phoneDTO)
+        {
+            if (phoneDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+
+            if (string.IsNullOrEmpty(phoneDTO.Name))
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var phoneType = await clsPhoneTypes.GetByIDAsync(ID);
+
+            if (phoneType is null)
+                return NotFound($"No type With {ID} Have Ben Found");
+
+            phoneType.Name = phoneDTO.Name;
+
+
+            if (await phoneType.SaveAsync())
+            {
+                return Ok($"Success, type With ID {phoneType.ID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, type Was Not Save." });
+            }
+
+        }
     }
 }

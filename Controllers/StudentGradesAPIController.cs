@@ -79,5 +79,72 @@ namespace SchoolWebAPIApp.Controllers
             else
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
+
+        [HttpPost("AddNewStudentGrade", Name = "AddNewStudentGrade")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<sGradeDTO>> AddNewStudentGradeAsync(sGradeDTO sDTO)
+        {
+            if (sDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (string.IsNullOrEmpty(sDTO.Name) || sDTO.SchoolID <= 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var sgLog = new clsStudentGrades(sDTO, clsStudentGrades.enMode.AddNew);
+
+            if (await sgLog.SaveAsync())
+            {
+                return CreatedAtRoute("GetStudentGradeByID", new { ID = sgLog.ID }, sgLog.sGradeDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Student Grade Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateStudentGrade/{ID}", Name = "UpdateStudentGrade")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<sgLogDTO>> UpdateStudentGradeAsync(int ID, sGradeDTO sDTO)
+        {
+            if (sDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (ID <= 0 || string.IsNullOrEmpty(sDTO.Name) || sDTO.SchoolID <= 0)
+            {
+                return BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var sGrade = await clsStudentGrades.GetByIDAsync(ID);
+
+            if (sGrade is null)
+                return NotFound($"No Grade With {ID} Have Ben Found");
+
+            sGrade.Name = sDTO.Name;
+            sGrade.SchoolID = sDTO.SchoolID;
+
+
+            if (await sGrade.SaveAsync())
+            {
+                return Ok($"Success, Student Grade  With ID {sGrade.ID} Has Ben Updated Successfully.");
+            }
+
+            else
+            {
+                return StatusCode(500, new { Message = "Error,Student Grade  Was Not Save." });
+            }
+
+        }
     }
 }

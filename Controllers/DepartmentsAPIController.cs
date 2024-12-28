@@ -12,7 +12,7 @@ namespace SchoolWebAPIApp.Controllers
         [HttpGet("GetAllDepartments", Name = "GetAllDepartments")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<EmailDTO>>> GetAllDepartmentsAsync()
+        public async Task<ActionResult<IEnumerable<departmentDTO>>> GetAllDepartmentsAsync()
         {
             var departments = await clsDepartments.GetAllAsync();
 
@@ -26,7 +26,7 @@ namespace SchoolWebAPIApp.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<EmailDTO>>> GetDepartmentByIDAsync(int ID)
+        public async Task<ActionResult<IEnumerable<departmentDTO>>> GetDepartmentByIDAsync(int ID)
         {
             if (ID <= 0)
                 return BadRequest($"Invalid ID !");

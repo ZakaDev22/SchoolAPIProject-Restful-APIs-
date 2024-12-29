@@ -52,7 +52,7 @@ namespace SchoolWebAPIApp.Controllers
             var subject = await clsSubjects.GetBySubjectCodeAsync(subjectCode);
 
             if (subject == null)
-                return NotFound($"No Subject With Code {subjectCode} Is Not Found!");
+                return NotFound($"No Subject With Name {subjectCode} Is Not Found!");
 
 
             return Ok(subject.sbjDTO);

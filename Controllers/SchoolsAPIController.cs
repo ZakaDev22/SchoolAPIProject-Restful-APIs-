@@ -52,7 +52,7 @@ namespace SchoolWebAPIApp.Controllers
             var school = await clsSchools.GetByNameAsync(SchoolName);
 
             if (school == null)
-                return NotFound($"No School With Name {SchoolName}, Is Not Found!");
+                return NotFound($"No School With CountryID {SchoolName}, Is Not Found!");
 
 
             return Ok(school.schoolDTO);

@@ -40,7 +40,7 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(country.countryDTO);
         }
 
-        [HttpGet("GetCountryByName/{Name}", Name = "GetCountryByName")]
+        [HttpGet("GetCountryByName/{CountryID}", Name = "GetCountryByName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -52,13 +52,13 @@ namespace SchoolWebAPIApp.Controllers
             var country = await clsCountries.GetByCountryNameAsync(Name);
 
             if (country == null)
-                return NotFound($"No country With Name {Name} Is Not Found!");
+                return NotFound($"No country With CountryID {Name} Is Not Found!");
 
 
             return Ok(country.countryDTO);
         }
 
-        [HttpGet("GetCountryByCode/{Code}", Name = "GetCountryByCode")]
+        [HttpGet("GetCountryByCode/{Name}", Name = "GetCountryByCode")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -70,7 +70,7 @@ namespace SchoolWebAPIApp.Controllers
             var country = await clsCountries.GetByCountryNameAsync(Code);
 
             if (country == null)
-                return NotFound($"No country With Name {Code} Is Not Found!");
+                return NotFound($"No country With CountryID {Code} Is Not Found!");
 
 
             return Ok(country.countryDTO);

@@ -52,7 +52,7 @@ namespace SchoolWebAPIApp.Controllers
             var address = await clsAddresses.GetByCityNameAsync(city);
 
             if (address == null)
-                return NotFound($"No addresses With Code Name {city} Is Not Found!");
+                return NotFound($"No addresses With Name CountryID {city} Is Not Found!");
 
 
             return Ok(address);

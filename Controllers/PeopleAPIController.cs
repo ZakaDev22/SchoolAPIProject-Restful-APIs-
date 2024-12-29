@@ -54,14 +54,14 @@ namespace SchoolWebAPIApp.Controllers
         {
             if (string.IsNullOrEmpty(FirstName) || string.IsNullOrEmpty(LastName))
             {
-                return BadRequest($"Bad Request With Full Name FirstName Or LastName");
+                return BadRequest($"Bad Request With Full CountryID FirstName Or LastName");
             }
 
             clsPeople person = await clsPeople.GetByNameAsync(FirstName, LastName);
 
             if (person is null)
             {
-                return NotFound($"There Is No Person Name {FirstName} {LastName} ");
+                return NotFound($"There Is No Person CountryID {FirstName} {LastName} ");
             }
 
             return Ok(person.pDTO);
@@ -196,7 +196,7 @@ namespace SchoolWebAPIApp.Controllers
             var IsExists = await clsPeople.IsExistsByNameAsync(FirstName, LastName);
 
             if (!IsExists)
-                return NotFound($"No Student With Name {FirstName} {LastName} Has Ben  Found!");
+                return NotFound($"No Student With CountryID {FirstName} {LastName} Has Ben  Found!");
 
 
             return Ok(IsExists);

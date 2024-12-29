@@ -58,5 +58,28 @@ namespace SchoolWebAPIApp.Controllers
             return Ok(address);
         }
 
+        [HttpDelete("DeleteAddressByID/{ID}", Name = "DeleteAddressByID")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IEnumerable<bool>>> DeleteAddressByIDAsync(int ID)
+        {
+            if (ID <= 0)
+                return BadRequest($"Invalid ID !");
+
+
+            var address = await clsAddresses.GetByIDAsync(ID);
+
+            if (address is null)
+                return NotFound($"No Address With ID {ID} Has Ben  Found!");
+
+
+            if (await clsAddresses.DeleteAsync(ID))
+                return Ok($"Success, Address With ID {ID} Has Ben Deleted.");
+            else
+                return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
     }
 }

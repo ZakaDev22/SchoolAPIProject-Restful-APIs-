@@ -117,7 +117,7 @@ namespace SchoolWebAPIApp.Controllers
                 return BadRequest("DTO Is Null!");
             }
 
-            // in This Case We Dont Need To Check If ID Or The Effective Date Are valid Because We Will Not Update Theme Anyway
+            // in This Case We Dont Need To Check If ID Or The Effective StateID Are valid Because We Will Not Update Theme Anyway
             if (sDTO.Salary < 0 || sDTO.Bonus <= 0 || sDTO.Deductions < 0)
             {
                 return BadRequest(" Some DTO Properties Are Empty!");
@@ -128,7 +128,7 @@ namespace SchoolWebAPIApp.Controllers
             if (staffSalary == null)
                 return NotFound($"No staffSalary With {ID} Have Ben Found");
 
-            // in This Case We Dont Need To Update The ID Or The Effective Date 
+            // in This Case We Dont Need To Update The ID Or The Effective StateID 
             staffSalary.Salary = sDTO.Salary;
             staffSalary.Bonus = sDTO.Bonus;
             staffSalary.Deductions = sDTO.Deductions;

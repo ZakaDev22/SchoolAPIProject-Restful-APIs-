@@ -81,5 +81,73 @@ namespace SchoolWebAPIApp.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
         }
 
+        [HttpPost("AddNewAddress", Name = "AddNewAddress")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<attendanceDTO>> AddNewAddressAsync(addressDTO addDTO)
+        {
+            if (addDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (addDTO.StateID < 0 || addDTO.CountryID <= 0 || string.IsNullOrEmpty(addDTO.Street) || string.IsNullOrEmpty(addDTO.City))
+            {
+                return base.BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var address = new clsAddresses(addDTO, clsAddresses.enMode.AddNew);
+
+            if (await address.SaveAsync())
+            {
+                return CreatedAtRoute("GetAddressByID", new { ID = address.ID }, address.addressDTO);
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Address Was Not Save." });
+            }
+
+        }
+
+        [HttpPut("UpdateAddress/{ID}", Name = "UpdateAddress")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<attendanceDTO>> UpdateAddressAsync(int ID, addressDTO addDTO)
+        {
+            if (addDTO == null)
+            {
+                return BadRequest("DTO Is Null!");
+            }
+
+            if (ID <= 0 || addDTO.StateID < 0 || addDTO.CountryID <= 0 || string.IsNullOrEmpty(addDTO.Street) || string.IsNullOrEmpty(addDTO.City))
+            {
+                return base.BadRequest(" Some DTO Properties Are Empty!");
+            }
+
+            var address = await clsAddresses.GetByIDAsync(ID);
+
+            if (address == null)
+                return NotFound($"No address With {ID} Have Ben Found");
+
+            //address.ID = addDTO.ID;
+            address.Street = addDTO.Street;
+            address.StateID = addDTO.StateID;
+            address.City = addDTO.City;
+            address.CountryID = addDTO.CountryID;
+
+            if (await address.SaveAsync())
+            {
+                return Ok($"Success, Address With ID {address.ID} Has Ben Updated Successfully.");
+            }
+            else
+            {
+                return StatusCode(500, new { Message = "Error, Address Was Not Save." });
+            }
+
+        }
+
     }
 }
